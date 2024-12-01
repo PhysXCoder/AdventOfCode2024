@@ -1,7 +1,7 @@
 const fs = require('fs');
 
-//const fileName = 'input_example';
-const fileName = 'input';
+//const fileName = '01/input_example';
+const fileName = '01/input';
 const fileContent = fs.readFileSync(fileName).toString();
 const linesArray = fileContent.split('\n').filter(l => l);
 const valuesMatrix = linesArray.map(line => line.match(/[^\s]+/g));
