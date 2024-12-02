@@ -1,17 +1,14 @@
 import { readFileSync } from 'node:fs';
 import { performance } from 'node:perf_hooks';
 
-const totalStartTime = performance.now();
 
-const parsingStartTime = performance.now();
+// Parsing
 //const fileName = '02/input_example';
 const fileName = '02/input';
+const startTime = performance.now();
 const fileContent = readFileSync(fileName).toString();
 const lines = fileContent.split('\n').filter(l => l);
 const values = lines.map(line => line.split(/\s+/g)).map(array => array.map(s => parseInt(s)));
-const parsingEndTime = performance.now();
-console.log(`Parsing time: ${(parsingEndTime-parsingStartTime).toFixed(3)}ms`)
-console.log(' ');
 
 // Part 1
 function isSafe1(reportData) {
@@ -29,16 +26,12 @@ function isSafe1(reportData) {
     }
     return true;
 }
-const part1StartTime = performance.now();
 let safeReports = 0;
 for (let j=0; j<values.length; j++) {
     if (isSafe1(values[j])) safeReports++;
 }
-const part1EndTime = performance.now();
 console.log('Part1: #Safe Reports = ' + safeReports);
-console.log(`Part1 time: ${(part1EndTime-part1StartTime).toFixed(3)}ms`)
 console.log(' ');
-
 
 // Part 2
 function isSafe2(reportData) {
@@ -87,11 +80,8 @@ for (let j=0; j<values.length; j++) {
         let debug = true;
     }
 }
-const part2EndTime = performance.now();
 console.log('Part2: #Safe Reports = ' + safeReports2);
-console.log(`Part2 time: ${(part2EndTime-part2StartTime).toFixed(3)}ms`)
 console.log(' ');
 
-
-const totalEndTime = performance.now();
-console.log(`Total time: ${(totalEndTime-totalStartTime).toFixed(3)}ms`)        // Total time is much more that the sum of parsing+part1+part2... But why?
+const endTime = performance.now();
+console.log(`Total time: ${(endTime-startTime).toFixed(3)}ms`)
