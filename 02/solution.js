@@ -11,29 +11,7 @@ const lines = fileContent.split('\n').filter(l => l);
 const values = lines.map(line => line.split(/\s+/g)).map(array => array.map(s => parseInt(s)));
 
 // Part 1
-function isSafe1(reportData) {
-    let increasing;
-    for (let i=1; i<reportData.length; i++) {
-        const delta = reportData[i-1] - reportData[i];
-        const deltaAbs = Math.abs(delta);
-        if (deltaAbs < 1 || deltaAbs > 3) return false;
-        if (i===1) {
-            increasing = (delta > 0);
-        } else {
-            if (increasing && delta < 0) return false;
-            if (!increasing && delta > 0) return false;
-        }
-    }
-    return true;
-}
-let safeReports = 0;
-for (let j=0; j<values.length; j++) {
-    if (isSafe1(values[j])) safeReports++;
-}
-console.log('Part1: #Safe Reports = ' + safeReports);
-
-// Part 2
-function isSafe2(reportData) {
+function isSafe(reportData) {
     let increasing;
     for (let i=1; i<reportData.length; i++) {
         const delta = reportData[i-1] - reportData[i];
@@ -48,27 +26,33 @@ function isSafe2(reportData) {
     }
     return { result: true, idx: 0};
 }
+let safeReports = 0;
+for (let j=0; j<values.length; j++) {
+    if (isSafe(values[j]).result) safeReports++;
+}
+console.log('Part1: #Safe Reports = ' + safeReports);
+
+// Part 2
 function getArrayWithoutElementAt(array, index) {
     return [
         ...array.slice(0, index),
         ...array.slice(index+1, array.length)
     ]
 }
-const part2StartTime = performance.now();
 let safeReports2 = 0;
 for (let j=0; j<values.length; j++) {
     const report = values[j];
-    const val = isSafe2(report);
-    if (val.result) {
+    const check = isSafe(report);
+    if (check.result) {
         safeReports2++;
         continue;
     }
     // If there's a problem, we need to check several places for removal
-    const indexesToCheck = [val.idx-2, val.idx-1, val.idx, val.idx+1, val.idx+2].filter(idx => idx >= 0 && idx < report.length);    
+    const indexesToCheck = [check.idx-2, check.idx-1, check.idx, check.idx+1, check.idx+2].filter(idx => idx >= 0 && idx < report.length);    
     for (let i=0; i<indexesToCheck.length; i++) {
         const idx = indexesToCheck[i];
         const reportWithoutIdx = getArrayWithoutElementAt(report, idx);    
-        if (isSafe1(reportWithoutIdx)) {
+        if (isSafe(reportWithoutIdx).result) {
             safeReports2++;            
             break;            
         }
