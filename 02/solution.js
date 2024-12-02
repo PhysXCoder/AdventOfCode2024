@@ -31,7 +31,6 @@ for (let j=0; j<values.length; j++) {
     if (isSafe1(values[j])) safeReports++;
 }
 console.log('Part1: #Safe Reports = ' + safeReports);
-console.log(' ');
 
 // Part 2
 function isSafe2(reportData) {
@@ -49,7 +48,7 @@ function isSafe2(reportData) {
     }
     return { result: true, idx: 0};
 }
-function removeElementAt(array, index) {
+function getArrayWithoutElementAt(array, index) {
     return [
         ...array.slice(0, index),
         ...array.slice(index+1, array.length)
@@ -65,23 +64,17 @@ for (let j=0; j<values.length; j++) {
         continue;
     }
     // If there's a problem, we need to check several places for removal
-    const indexesToCheck = [val.idx-2, val.idx-1, val.idx, val.idx+1, val.idx+2].filter(idx => idx >= 0 && idx < report.length);
-    let safe = false;
+    const indexesToCheck = [val.idx-2, val.idx-1, val.idx, val.idx+1, val.idx+2].filter(idx => idx >= 0 && idx < report.length);    
     for (let i=0; i<indexesToCheck.length; i++) {
         const idx = indexesToCheck[i];
-        const reportWithoutIdx = removeElementAt(report, idx);    
+        const reportWithoutIdx = getArrayWithoutElementAt(report, idx);    
         if (isSafe1(reportWithoutIdx)) {
-            safeReports2++;
-            safe = true;
+            safeReports2++;            
             break;            
         }
-    }
-    if (!safe) {
-        let debug = true;
-    }
+    }    
 }
 console.log('Part2: #Safe Reports = ' + safeReports2);
-console.log(' ');
 
 const endTime = performance.now();
 console.log(`Total time: ${(endTime-startTime).toFixed(3)}ms`)
