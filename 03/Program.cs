@@ -25,7 +25,7 @@ class Program
 
     private static int SolvePart1(string data)
     {
-        var mulRegex = new Regex(@"mul\((\d+)\,(\d+)\)");
+        var mulRegex = new Regex(@"mul\((\d{1,3})\,(\d{1,3})\)");
         var matches = mulRegex.Matches(data);
         var totalSum = 0;
         foreach (Match match in matches)
@@ -48,7 +48,7 @@ class Program
         var disabledMatches = disabledRegex.Matches(data);
         var disabledIndexes = disabledMatches.Select(match => match.Index).ToList();
      
-        var mulRegex = new Regex(@"mul\((\d+)\,(\d+)\)");
+        var mulRegex = new Regex(@"mul\((\d{1,3})\,(\d{1,3})\)");
         var mulMatches = mulRegex.Matches(data);
         
         var enabled = true;
